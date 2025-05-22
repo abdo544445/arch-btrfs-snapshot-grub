@@ -34,6 +34,9 @@ SNAPSHOT_MANAGEMENT_SCRIPT_PATH="/usr/local/bin/manage-btrfs-snapshots.sh"
 SNAPSHOT_CLEANUP_SERVICE_PATH="/etc/systemd/system/btrfs-snapshot-cleanup.service"
 SNAPSHOT_CLEANUP_TIMER_PATH="/etc/systemd/system/btrfs-snapshot-cleanup.timer"
 
+# Snapshot manager selection
+SNAPSHOT_MANAGER="auto" # Options: "timeshift", "btrfs-assistant", "custom", "auto"
+
 # For snapshot creation script
 SOURCE_SUBVOLUME_FOR_SNAPSHOT="/" # Assumes '/' is the Btrfs subvolume to snapshot (e.g. '@')
 SNAPSHOT_PREFIX_IN_SCRIPT="boot_auto_snap"
@@ -106,10 +109,7 @@ fi
 
 # --- 1. Install Prerequisites ---
 log_info "Installing prerequisite packages (btrfs-progs, git, base-devel, timeshift)..."
-# Attempt to install timeshift along with other prerequisites
-if pacman -Syu --needed --noconfirm btrfs-progs git base-devel timeshift; then
-    log_info "Prerequisite packages (including Timeshift attempt) processed."
-else
+# Attempt to install
     log_warning "Pacman command for prerequisites encountered issues. Continuing, but Timeshift might not be installed."
     # We don't exit here, as other parts might still be useful, and Timeshift presence is checked later.
 fi
