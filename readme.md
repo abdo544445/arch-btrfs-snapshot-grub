@@ -28,7 +28,7 @@ A practical, comprehensive solution for integrating Btrfs snapshots with GRUB on
 
 ## ⚡ Quick Start (One-Command Install)
 ```bash
-sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/abdo544445/arch-btrfs-snapshot-grub/main/setup_btrfs_snapshots.sh)"
+sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/abdo544445/arch-btrfs-snapshot-grub/master/setup_btrfs_snapshots.sh)"
 ```
 
 Just run this command to install everything automatically:
@@ -37,7 +37,7 @@ Or if you prefer to review the script first (recommended):
 
 1. **Download the script:**
     ```bash
-    curl -fsSL https://raw.githubusercontent.com/abdo544445/arch-btrfs-snapshot-grub/main/setup_btrfs_snapshots.sh -o setup_btrfs_snapshots.sh
+    curl -fsSL https://raw.githubusercontent.com/abdo544445/arch-btrfs-snapshot-grub/master/setup_btrfs_snapshots.sh -o setup_btrfs_snapshots.sh
     ```
 
 2. **Review the script:**
@@ -61,6 +61,7 @@ Or if you prefer to review the script first (recommended):
 - `/.snapshots` subvolume for storing snapshots
 - `/usr/local/bin/create-btrfs-boot-snapshot.sh` (boot snapshot script)
 - `/usr/local/bin/manage-btrfs-snapshots.sh` (cleanup script)
+- `fix_timeshift_integration.sh` (Timeshift troubleshooting script)
 - Systemd units:
     - `btrfs-boot-snapshot.service`
     - `btrfs-snapshot-cleanup.service`
@@ -73,6 +74,10 @@ Or if you prefer to review the script first (recommended):
 
 - **If Timeshift is installed:**  
   Use Timeshift for snapshot management. Launch it with `sudo timeshift-launcher` and follow the wizard.
+  - If you encounter any Timeshift setup issues like "*Selected snapshot device is not a system disk*", run the Timeshift integration fixer:
+    ```bash
+    sudo ./fix_timeshift_integration.sh
+    ```
 - **If Timeshift is not installed:**  
   The custom scripts/services will handle snapshot creation and cleanup.  
   - Reboot to create your first snapshot.
@@ -88,6 +93,13 @@ Or if you prefer to review the script first (recommended):
       `sudo systemctl status grub-btrfsd.path`
     - Manually update GRUB:  
       `sudo grub-mkconfig -o /boot/grub/grub.cfg`
+- **Timeshift errors like "Selected snapshot device is not a system disk"?**
+    - Run the Timeshift integration fixer script:
+      ```bash
+      sudo ./fix_timeshift_integration.sh
+      ```
+    - This script will analyze your system, fix common integration issues, 
+      and create a proper Timeshift configuration for Btrfs
 - **AUR build errors?**  
   Make sure you're running the script as a regular user with `sudo`, not as root.
 - **Disk space:**  
