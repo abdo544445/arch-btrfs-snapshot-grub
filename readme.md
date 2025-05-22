@@ -94,7 +94,7 @@ Or if you prefer to review the script first (recommended):
 
 ---
 
-## Rollback (Manual)
+## 🔄 Rollback (Manual)
 
 1. Boot into a snapshot from GRUB (read-only).
 2. Create a new read-write snapshot from it.
@@ -106,7 +106,7 @@ Or if you prefer to review the script first (recommended):
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 Pull requests and issues are welcome!
 
