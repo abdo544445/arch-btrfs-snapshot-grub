@@ -27,7 +27,7 @@ A practical, ready-to-use setup script for integrating Btrfs snapshots with GRUB
 
 1. **Download the script:**
     ```bash
-    bash <(curl -fsSL https://raw.githubusercontent.com/abdo544445/arch-btrfs-snapshot-grub/main/setup_btrfs_snapshots.sh)
+    bash <(curl -fsSL https://raw.githubusercontent.com/abdo544445/arch-btrfs-snapshot-grub/master/setup_btrfs_snapshots.sh)
     ```
 
 2. **Review the script:**
