@@ -429,7 +429,7 @@ if command -v timeshift &> /dev/null; then
     log_info "Timeshift is installed. It will be the primary snapshot manager."
     log_info "Disabling this script's custom automated snapshot creation and cleanup services."
 
-    if systemctl list-unit-files | grep -q "^$(basename "${SNAPSHOT_CREATION_SERVICE_PATH")"; then
+    if systemctl list-unit-files | grep -q "^$(basename "${SNAPSHOT_CREATION_SERVICE_PATH}")"; then
         log_info "Ensuring custom boot snapshot service is disabled: $(basename "${SNAPSHOT_CREATION_SERVICE_PATH}")"
         systemctl disable --now "$(basename "${SNAPSHOT_CREATION_SERVICE_PATH}")" &>/dev/null
     fi
