@@ -1,10 +1,13 @@
 # arch-btrfs-snapshot-grub
 
-A practical, ready-to-use setup script for integrating Btrfs snapshots with GRUB on Arch Linux. This project helps you automate snapshot creation, cleanup, and GRUB menu integration, with optional Timeshift support.
+A practical, comprehensive solution for integrating Btrfs snapshots with GRUB on Arch Linux. This project automates snapshot creation, cleanup, and GRUB menu integration, providing an easy system recovery solution with optional Timeshift support.
+
+[![GitHub Stars](https://img.shields.io/github/stars/abdo544445/arch-btrfs-snapshot-grub?style=for-the-badge)](https://github.com/abdo544445/arch-btrfs-snapshot-grub/stargazers)
+[![GitHub License](https://img.shields.io/github/license/abdo544445/arch-btrfs-snapshot-grub?style=for-the-badge)](https://github.com/abdo544445/arch-btrfs-snapshot-grub/blob/main/LICENSE)
 
 ---
 
-## What This Project Does
+## 🚀 What This Project Does
 
 - **Sets up a dedicated Btrfs snapshot subvolume** (`/.snapshots`)
 - **Automates snapshot creation on every boot** (via systemd)
@@ -14,7 +17,7 @@ A practical, ready-to-use setup script for integrating Btrfs snapshots with GRUB
 
 ---
 
-## Requirements
+## 📋 Requirements
 
 - **Arch Linux** with Btrfs as your root filesystem
 - **GRUB** as your bootloader
@@ -23,11 +26,17 @@ A practical, ready-to-use setup script for integrating Btrfs snapshots with GRUB
 
 ---
 
-## Quick Start
+## ⚡ Quick Start (One-Command Install)
+
+```bash
+sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/abdo544445/arch-btrfs-snapshot-grub/main/setup_btrfs_snapshots.sh)"
+```
+
+Or if you prefer to review the script first (recommended):
 
 1. **Download the script:**
     ```bash
-    bash <(curl -fsSL https://raw.githubusercontent.com/abdo544445/arch-btrfs-snapshot-grub/master/setup_btrfs_snapshots.sh)
+    curl -fsSL https://raw.githubusercontent.com/abdo544445/arch-btrfs-snapshot-grub/main/setup_btrfs_snapshots.sh -o setup_btrfs_snapshots.sh
     ```
 
 2. **Review the script:**
@@ -36,21 +45,17 @@ A practical, ready-to-use setup script for integrating Btrfs snapshots with GRUB
     ```
     *(Always read scripts before running them! Adjust config variables at the top if needed.)*
 
-3. **Make it executable:**
+3. **Make it executable and run it:**
     ```bash
     chmod +x setup_btrfs_snapshots.sh
-    ```
-
-4. **Run it with sudo:**
-    ```bash
     sudo ./setup_btrfs_snapshots.sh
     ```
 
-5. **Follow the prompts.** The script will guide you through the rest.
+4. **Follow the prompts.** The script will guide you through the rest.
 
 ---
 
-## What Gets Installed/Created
+## 📦 What Gets Installed/Created
 
 - `/.snapshots` subvolume for storing snapshots
 - `/usr/local/bin/create-btrfs-boot-snapshot.sh` (boot snapshot script)
@@ -63,7 +68,7 @@ A practical, ready-to-use setup script for integrating Btrfs snapshots with GRUB
 
 ---
 
-## After Running the Script
+## ✅ After Running the Script
 
 - **If Timeshift is installed:**  
   Use Timeshift for snapshot management. Launch it with `sudo timeshift-launcher` and follow the wizard.
@@ -75,7 +80,7 @@ A practical, ready-to-use setup script for integrating Btrfs snapshots with GRUB
 
 ---
 
-## Troubleshooting
+## 🔧 Troubleshooting
 
 - **Not seeing snapshots in GRUB?**
     - Make sure `grub-btrfsd.path` (or similar) is enabled:  
