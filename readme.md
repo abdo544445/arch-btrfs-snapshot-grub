@@ -27,10 +27,11 @@ A practical, comprehensive solution for integrating Btrfs snapshots with GRUB on
 ---
 
 ## ⚡ Quick Start (One-Command Install)
-
 ```bash
 sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/abdo544445/arch-btrfs-snapshot-grub/main/setup_btrfs_snapshots.sh)"
 ```
+
+Just run this command to install everything automatically:
 
 Or if you prefer to review the script first (recommended):
 
@@ -88,7 +89,7 @@ Or if you prefer to review the script first (recommended):
     - Manually update GRUB:  
       `sudo grub-mkconfig -o /boot/grub/grub.cfg`
 - **AUR build errors?**  
-  Make sure you’re running the script as a regular user with `sudo`, not as root.
+  Make sure you're running the script as a regular user with `sudo`, not as root.
 - **Disk space:**  
   Snapshots are efficient, but monitor your free space with `df -h` and `sudo btrfs filesystem du /`.
 
