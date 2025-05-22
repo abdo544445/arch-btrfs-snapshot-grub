@@ -156,11 +156,15 @@ if [ -f "$TIMESHIFT_CONFIG_FILE" ]; then
     log_info "Backed up existing Timeshift configuration."
 fi
 
-# Create a basic config file that forces Btrfs mode and specifies the snapshot location
+# Get UUID of block device
+ROOT_DEVICE_UUID=$(lsblk -no UUID /dev/${BLOCK_DEVICE})
+log_info "Root device UUID: ${ROOT_DEVICE_UUID}"
+
+# Create a more complete config file that forces Btrfs mode and specifies the snapshot location
 cat << EOF > "$TIMESHIFT_CONFIG_FILE"
 {
-  "backup_device_uuid" : "",
-  "parent_device_uuid" : "",
+  "backup_device_uuid" : "${ROOT_DEVICE_UUID}",
+  "parent_device_uuid" : "${ROOT_DEVICE_UUID}",
   "do_first_run" : "false",
   "btrfs_mode" : "true",
   "include_btrfs_home_for_backup" : "false",
@@ -236,7 +240,20 @@ else
     log_info "Please run the main setup script to install and configure grub-btrfs."
 fi
 
-# --- 6. Test Timeshift and Verify Configuration ---
+# --- 6. Kill any running Timeshift instances
+log_info "Checking for running Timeshift instances..."
+TIMESHIFT_PID=$(pgrep timeshift || echo "")
+if [ -n "$TIMESHIFT_PID" ]; then
+    log_info "Found Timeshift running (PID=$TIMESHIFT_PID). Attempting to terminate..."
+    if kill "$TIMESHIFT_PID" 2>/dev/null; then
+        log_info "Successfully terminated running Timeshift instance."
+        sleep 1  # Give it a moment to fully terminate
+    else
+        log_warning "Failed to terminate Timeshift instance. Manual intervention may be required."
+    fi
+fi
+
+# --- 7. Test Timeshift and Verify Configuration ---
 log_info "Testing Timeshift configuration..."
 
 # Try to create a test snapshot to verify it's working
@@ -265,12 +282,17 @@ fi
 # --- Completion ---
 log_info "===================================================================="
 log_info "Timeshift integration checker/fixer finished."
-log_info "If you still have issues, you can manually configure Timeshift:"
-log_info "1. Run 'sudo timeshift-launcher'"
+log_info "If you still have issues, try one of these approaches:"
+log_info "1. First try restarting Timeshift:"
+log_info "   - Run 'sudo pkill timeshift' to kill any running instances"
+log_info "   - Then run 'sudo timeshift-launcher' again"
 log_info "2. If you see 'Selected snapshot device is not a system disk' error:"
-log_info "   - Make sure to select the device containing your root filesystem"
-log_info "   - Verify your Btrfs subvolume layout, especially if you use '@' subvolume format"
+log_info "   - Make sure to select the device containing your root filesystem (${ROOT_DEVICE})"
+log_info "   - For non-standard subvolume layouts (if not using '@'), select your BTRFS partition"
+log_info "     and use advanced options to manually specify your root subvolume"
 log_info "3. Configure '${SNAPSHOT_SUBVOLUME_PATH}' as your snapshot location"
+log_info "4. If all else fails, you can still use the automatic snapshot scripts provided"
+log_info "   by this solution without relying on Timeshift"
 log_info "===================================================================="
 
 exit 0
